@@ -2153,4 +2153,4 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 
 ## License
 
-[MIT](https://github.com/graphql-compose/graphql-compose-mongoose/blob/master/LICENSE.md)
+[MIT](https://github.com/ShaneAlexGraham/graphql-mongoose-schemabuilder/blob/master/LICENSE.md)
