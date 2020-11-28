@@ -1,4 +1,4 @@
-# graphql-compose-mongoose
+# graphql-mongoose-schemabuilder
 
 This is a plugin for [graphql-compose-mongoose](https://github.com/graphql-compose/graphql-compose-mongoose) and [graphql-compose](https://github.com/graphql-compose/graphql-compose), which derives GraphQLType from your [mongoose model](https://github.com/Automattic/mongoose). Also derives bunch of internal GraphQL Types. Auto generates schema composer, including `graphql connection`, also provided basic search via operators ($lt, $gt and so on) with a added feature to `Search` by regular expression.
 
