@@ -5,7 +5,6 @@ This is a plugin for [graphql-compose-mongoose](https://github.com/graphql-compo
 <!-- TOC depthFrom:2 -->
 * [Installation](#installation)
 * [Example](#example)
-  * [Working with Mongoose Collection Level Discriminators](#working-with-mongoose-collection-level-discriminators)
 * [Customization options](#customization-options)
   * [`composeMongoose` customization options](#composemongoose-customization-options)
   * [Query](#query)
@@ -80,10 +79,8 @@ Modules `graphql`, `graphql-compose`, `mongoose`, `graphql-compose-mongoose` are
 
 ## Example
 
-### Simple Example
 Source code: <https://github.com/ShaneAlexGraham/graphql-mongoose-example>
 
-### More Complex Example
 ```ts
 const mongoose = require('mongoose');
 const { buildSchemaFromModels } = require('graphql-mongoose-schemabuilder');
