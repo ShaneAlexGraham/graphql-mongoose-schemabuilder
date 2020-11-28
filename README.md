@@ -3,31 +3,70 @@
 This is a plugin for [graphql-compose-mongoose](https://github.com/graphql-compose/graphql-compose-mongoose) and [graphql-compose](https://github.com/graphql-compose/graphql-compose), which derives GraphQLType from your [mongoose model](https://github.com/Automattic/mongoose). Also derives bunch of internal GraphQL Types. Auto generates schema composer, including `graphql connection`, also provided basic search via operators ($lt, $gt and so on) with a added feature to `Search` by regular expression.
 
 <!-- TOC depthFrom:2 -->
-- [Installation](#installation)
-- [Example](#example)
-  - [Working with Mongoose Collection Level Discriminators](#working-with-mongoose-collection-level-discriminators)
-- [Customization options](#customization-options)
-  - [`composeMongoose` customization options](#composemongoose-customization-options)
-- [Resolvers' customization options](#resolvers-customization-options)
-  - [`createMany(opts?: CreateManyResolverOpts)`](#createmanyopts-createmanyresolveropts)
-  - [`createOne(opts?: CreateOneResolverOpts)`](#createoneopts-createoneresolveropts)
-  - [`findById(opts?: FindByIdResolverOpts)`](#findbyidopts-findbyidresolveropts)
-  - [`findByIds(opts?: FindByIdsResolverOpts)`](#findbyidsopts-findbyidsresolveropts)
-  - [`findMany(opts?: FindManyResolverOpts)`](#findmanyopts-findmanyresolveropts)
-  - [`findOne(opts?: FindOneResolverOpts)`](#findoneopts-findoneresolveropts)
-  - [`pagination(opts?: PaginationResolverOpts)`](#paginationopts-paginationresolveropts)
-  - [`removeById(opts?: RemoveByIdResolverOpts)`](#removebyidopts-removebyidresolveropts)
-  - [`removeMany(opts?: RemoveManyResolverOpts)`](#removemanyopts-removemanyresolveropts)
-  - [`removeOne(opts?: RemoveOneResolverOpts)`](#removeoneopts-removeoneresolveropts)
-  - [`updateById(opts?: UpdateByIdResolverOpts)`](#updatebyidopts-updatebyidresolveropts)
-  - [`updateMany(opts?: UpdateManyResolverOpts)`](#updatemanyopts-updatemanyresolveropts)
-  - [`updateOne(opts?: UpdateOneResolverOpts)`](#updateoneopts-updateoneresolveropts)
-  - [Description of common resolvers' options](#description-of-common-resolvers-options)
-    - [`FilterHelperArgsOpts`](#filterhelperargsopts)
-    - [`SortHelperArgsOpts`](#sorthelperargsopts)
-    - [`RecordHelperArgsOpts`](#recordhelperargsopts)
-    - [`LimitHelperArgsOpts`](#limithelperargsopts)
-- [License](#license)
+* [Installation](#installation)
+* [Example](#example)
+  * [Working with Mongoose Collection Level Discriminators](#working-with-mongoose-collection-level-discriminators)
+* [Customization options](#customization-options)
+  * [`composeMongoose` customization options](#composemongoose-customization-options)
+  * [Query](#query)
+  * [Mutation](#mutation)
+  * [Objects](#objects)
+    * [CreateManyExamplePayload](#createmanyexamplepayload)
+    * [CreateOneExamplePayload](#createoneexamplepayload)
+    * [Example](#example)
+    * [ExampleConnection](#exampleconnection)
+    * [ExampleEdge](#exampleedge)
+    * [ExamplePagination](#examplepagination)
+    * [PageInfo](#pageinfo)
+    * [PaginationInfo](#paginationinfo)
+    * [RemoveByIdExamplePayload](#removebyidexamplepayload)
+    * [RemoveManyExamplePayload](#removemanyexamplepayload)
+    * [RemoveOneExamplePayload](#removeoneexamplepayload)
+    * [UpdateByIdExamplePayload](#updatebyidexamplepayload)
+    * [UpdateManyExamplePayload](#updatemanyexamplepayload)
+    * [UpdateOneExamplePayload](#updateoneexamplepayload)
+  * [Inputs](#inputs)
+    * [CreateManyExampleInput](#createmanyexampleinput)
+    * [CreateOneExampleInput](#createoneexampleinput)
+    * [ExampleSearch](#examplesearch)
+    * [FilterExampleInput](#filterexampleinput)
+    * [FilterFindManyExampleInput](#filterfindmanyexampleinput)
+    * [FilterFindOneExampleInput](#filterfindoneexampleinput)
+    * [FilterRemoveManyExampleInput](#filterremovemanyexampleinput)
+    * [FilterRemoveOneExampleInput](#filterremoveoneexampleinput)
+    * [FilterUpdateManyExampleInput](#filterupdatemanyexampleinput)
+    * [FilterUpdateOneExampleInput](#filterupdateoneexampleinput)
+    * [OperatorsFilterExampleInput](#operatorsfilterexampleinput)
+    * [OperatorsFilterFindManyExampleInput](#operatorsfilterfindmanyexampleinput)
+    * [OperatorsFilterFindOneExampleInput](#operatorsfilterfindoneexampleinput)
+    * [OperatorsFilterRemoveManyExampleInput](#operatorsfilterremovemanyexampleinput)
+    * [OperatorsFilterRemoveOneExampleInput](#operatorsfilterremoveoneexampleinput)
+    * [OperatorsFilterUpdateManyExampleInput](#operatorsfilterupdatemanyexampleinput)
+    * [OperatorsFilterUpdateOneExampleInput](#operatorsfilterupdateoneexampleinput)
+    * [UpdateByIdExampleInput](#updatebyidexampleinput)
+    * [UpdateManyExampleInput](#updatemanyexampleinput)
+    * [UpdateOneExampleInput](#updateoneexampleinput)
+    * [_idOperatorsFilterExampleInput](#_idoperatorsfilterexampleinput)
+    * [_idOperatorsFilterFindManyExampleInput](#_idoperatorsfilterfindmanyexampleinput)
+    * [_idOperatorsFilterFindOneExampleInput](#_idoperatorsfilterfindoneexampleinput)
+    * [_idOperatorsFilterRemoveManyExampleInput](#_idoperatorsfilterremovemanyexampleinput)
+    * [_idOperatorsFilterRemoveOneExampleInput](#_idoperatorsfilterremoveoneexampleinput)
+    * [_idOperatorsFilterUpdateManyExampleInput](#_idoperatorsfilterupdatemanyexampleinput)
+    * [_idOperatorsFilterUpdateOneExampleInput](#_idoperatorsfilterupdateoneexampleinput)
+  * [Enums](#enums)
+    * [SortConnectionExampleEnum](#sortconnectionexampleenum)
+    * [SortFindByIdsExampleInput](#sortfindbyidsexampleinput)
+    * [SortFindManyExampleInput](#sortfindmanyexampleinput)
+    * [SortFindOneExampleInput](#sortfindoneexampleinput)
+    * [SortRemoveOneExampleInput](#sortremoveoneexampleinput)
+    * [SortUpdateManyExampleInput](#sortupdatemanyexampleinput)
+    * [SortUpdateOneExampleInput](#sortupdateoneexampleinput)
+  * [Scalars](#scalars)
+    * [Boolean](#boolean)
+    * [Int](#int)
+    * [MongoID](#mongoid)
+    * [String](#string)
+* [License](#license)
 
 <!-- /TOC -->
 
@@ -111,340 +150,2010 @@ const gqlServer = new ApolloServer({
 
 ```
 
-## Resolvers' customization options
+## Query
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>ExampleById</strong></td>
+<td valign="top"><a href="#example">Example</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">_id</td>
+<td valign="top"><a href="#mongoid">MongoID</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ExampleByIds</strong></td>
+<td valign="top">[<a href="#example">Example</a>!]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">_ids</td>
+<td valign="top">[<a href="#mongoid">MongoID</a>]!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">limit</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">sort</td>
+<td valign="top"><a href="#sortfindbyidsexampleinput">SortFindByIdsExampleInput</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ExampleOne</strong></td>
+<td valign="top"><a href="#example">Example</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">filter</td>
+<td valign="top"><a href="#filterfindoneexampleinput">FilterFindOneExampleInput</a></td>
+<td>
+
+Filter by fields
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">skip</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">sort</td>
+<td valign="top"><a href="#sortfindoneexampleinput">SortFindOneExampleInput</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ExampleMany</strong></td>
+<td valign="top">[<a href="#example">Example</a>!]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">filter</td>
+<td valign="top"><a href="#filterfindmanyexampleinput">FilterFindManyExampleInput</a></td>
+<td>
+
+Filter by fields
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">skip</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">limit</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">sort</td>
+<td valign="top"><a href="#sortfindmanyexampleinput">SortFindManyExampleInput</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ExampleCount</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">filter</td>
+<td valign="top"><a href="#filterexampleinput">FilterExampleInput</a></td>
+<td>
+
+Filter by fields
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ExampleConnection</strong></td>
+<td valign="top"><a href="#exampleconnection">ExampleConnection</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">first</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td>
+
+Forward pagination argument for returning at most first edges
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">after</td>
+<td valign="top"><a href="#string">String</a></td>
+<td>
+
+Forward pagination argument for returning at most first edges
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">last</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td>
+
+Backward pagination argument for returning at most last edges
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">before</td>
+<td valign="top"><a href="#string">String</a></td>
+<td>
+
+Backward pagination argument for returning at most last edges
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">filter</td>
+<td valign="top"><a href="#filterfindmanyexampleinput">FilterFindManyExampleInput</a></td>
+<td>
+
+Filter by fields
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">sort</td>
+<td valign="top"><a href="#sortconnectionexampleenum">SortConnectionExampleEnum</a></td>
+<td>
+
+Sort argument for data ordering
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ExamplePagination</strong></td>
+<td valign="top"><a href="#examplepagination">ExamplePagination</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">page</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td>
+
+Page number for displaying
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">perPage</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">filter</td>
+<td valign="top"><a href="#filterfindmanyexampleinput">FilterFindManyExampleInput</a></td>
+<td>
+
+Filter by fields
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">sort</td>
+<td valign="top"><a href="#sortfindmanyexampleinput">SortFindManyExampleInput</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+## Mutation
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>ExampleCreateOne</strong></td>
+<td valign="top"><a href="#createoneexamplepayload">CreateOneExamplePayload</a></td>
+<td>
+
+Create one document with mongoose defaults, setters, hooks and validation
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">record</td>
+<td valign="top"><a href="#createoneexampleinput">CreateOneExampleInput</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ExampleCreateMany</strong></td>
+<td valign="top"><a href="#createmanyexamplepayload">CreateManyExamplePayload</a></td>
+<td>
+
+Creates Many documents with mongoose defaults, setters, hooks and validation
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">records</td>
+<td valign="top">[<a href="#createmanyexampleinput">CreateManyExampleInput</a>!]!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ExampleUpdateById</strong></td>
+<td valign="top"><a href="#updatebyidexamplepayload">UpdateByIdExamplePayload</a></td>
+<td>
+
+Update one document: 1) Retrieve one document by findById. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it.
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">record</td>
+<td valign="top"><a href="#updatebyidexampleinput">UpdateByIdExampleInput</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ExampleUpdateOne</strong></td>
+<td valign="top"><a href="#updateoneexamplepayload">UpdateOneExamplePayload</a></td>
+<td>
+
+Update one document: 1) Retrieve one document via findOne. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it.
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">record</td>
+<td valign="top"><a href="#updateoneexampleinput">UpdateOneExampleInput</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">filter</td>
+<td valign="top"><a href="#filterupdateoneexampleinput">FilterUpdateOneExampleInput</a></td>
+<td>
+
+Filter by fields
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">sort</td>
+<td valign="top"><a href="#sortupdateoneexampleinput">SortUpdateOneExampleInput</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">skip</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ExampleUpdateMany</strong></td>
+<td valign="top"><a href="#updatemanyexamplepayload">UpdateManyExamplePayload</a></td>
+<td>
+
+Update many documents without returning them: Use Query.update mongoose method. Do not apply mongoose defaults, setters, hooks and validation. 
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">record</td>
+<td valign="top"><a href="#updatemanyexampleinput">UpdateManyExampleInput</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">filter</td>
+<td valign="top"><a href="#filterupdatemanyexampleinput">FilterUpdateManyExampleInput</a></td>
+<td>
+
+Filter by fields
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">sort</td>
+<td valign="top"><a href="#sortupdatemanyexampleinput">SortUpdateManyExampleInput</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">skip</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">limit</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ExampleRemoveById</strong></td>
+<td valign="top"><a href="#removebyidexamplepayload">RemoveByIdExamplePayload</a></td>
+<td>
+
+Remove one document: 1) Retrieve one document and remove with hooks via findByIdAndRemove. 2) Return removed document.
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">_id</td>
+<td valign="top"><a href="#mongoid">MongoID</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ExampleRemoveOne</strong></td>
+<td valign="top"><a href="#removeoneexamplepayload">RemoveOneExamplePayload</a></td>
+<td>
+
+Remove one document: 1) Remove with hooks via findOneAndRemove. 2) Return removed document.
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">filter</td>
+<td valign="top"><a href="#filterremoveoneexampleinput">FilterRemoveOneExampleInput</a></td>
+<td>
+
+Filter by fields
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">sort</td>
+<td valign="top"><a href="#sortremoveoneexampleinput">SortRemoveOneExampleInput</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ExampleRemoveMany</strong></td>
+<td valign="top"><a href="#removemanyexamplepayload">RemoveManyExamplePayload</a></td>
+<td>
+
+Remove many documents without returning them: Use Query.remove mongoose method. Do not apply mongoose defaults, setters, hooks and validation. 
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">filter</td>
+<td valign="top"><a href="#filterremovemanyexampleinput">FilterRemoveManyExampleInput</a>!</td>
+<td>
+
+Filter by fields
+
+</td>
+</tr>
+</tbody>
+</table>
+
+## Objects
+
+### CreateManyExamplePayload
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>recordIds</strong></td>
+<td valign="top">[<a href="#mongoid">MongoID</a>!]!</td>
+<td>
+
+Created document ID
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>records</strong></td>
+<td valign="top">[<a href="#example">Example</a>!]!</td>
+<td>
+
+Created documents
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>createCount</strong></td>
+<td valign="top"><a href="#int">Int</a>!</td>
+<td>
+
+Count of all documents created
+
+</td>
+</tr>
+</tbody>
+</table>
+
+### CreateOneExamplePayload
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>recordId</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td>
+
+Created document ID
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>record</strong></td>
+<td valign="top"><a href="#example">Example</a></td>
+<td>
+
+Created document
+
+</td>
+</tr>
+</tbody>
+</table>
+
+### Example
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>example</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>_id</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a>!</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### ExampleConnection
+
+A connection to a list of items.
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>count</strong></td>
+<td valign="top"><a href="#int">Int</a>!</td>
+<td>
+
+Total object count.
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>pageInfo</strong></td>
+<td valign="top"><a href="#pageinfo">PageInfo</a>!</td>
+<td>
+
+Information to aid in pagination.
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>edges</strong></td>
+<td valign="top">[<a href="#exampleedge">ExampleEdge</a>!]!</td>
+<td>
+
+Information to aid in pagination.
+
+</td>
+</tr>
+</tbody>
+</table>
+
+### ExampleEdge
+
+An edge in a connection.
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>node</strong></td>
+<td valign="top"><a href="#example">Example</a>!</td>
+<td>
+
+The item at the end of the edge
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>cursor</strong></td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td>
+
+A cursor for use in pagination
+
+</td>
+</tr>
+</tbody>
+</table>
+
+### ExamplePagination
+
+List of items with pagination.
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>count</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td>
+
+Total object count.
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>items</strong></td>
+<td valign="top">[<a href="#example">Example</a>!]</td>
+<td>
+
+Array of objects.
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>pageInfo</strong></td>
+<td valign="top"><a href="#paginationinfo">PaginationInfo</a>!</td>
+<td>
+
+Information to aid in pagination.
+
+</td>
+</tr>
+</tbody>
+</table>
+
+### PageInfo
+
+Information about pagination in a connection.
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>hasNextPage</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a>!</td>
+<td>
+
+When paginating forwards, are there more items?
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>hasPreviousPage</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a>!</td>
+<td>
+
+When paginating backwards, are there more items?
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>startCursor</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td>
+
+When paginating backwards, the cursor to continue.
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>endCursor</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td>
+
+When paginating forwards, the cursor to continue.
+
+</td>
+</tr>
+</tbody>
+</table>
+
+### PaginationInfo
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>currentPage</strong></td>
+<td valign="top"><a href="#int">Int</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>perPage</strong></td>
+<td valign="top"><a href="#int">Int</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>pageCount</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>itemCount</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>hasNextPage</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>hasPreviousPage</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### RemoveByIdExamplePayload
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>recordId</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td>
+
+Removed document ID
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>record</strong></td>
+<td valign="top"><a href="#example">Example</a></td>
+<td>
+
+Removed document
+
+</td>
+</tr>
+</tbody>
+</table>
+
+### RemoveManyExamplePayload
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>numAffected</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td>
+
+Affected documents number
+
+</td>
+</tr>
+</tbody>
+</table>
+
+### RemoveOneExamplePayload
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>recordId</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td>
+
+Removed document ID
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>record</strong></td>
+<td valign="top"><a href="#example">Example</a></td>
+<td>
+
+Removed document
+
+</td>
+</tr>
+</tbody>
+</table>
+
+### UpdateByIdExamplePayload
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>recordId</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td>
+
+Updated document ID
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>record</strong></td>
+<td valign="top"><a href="#example">Example</a></td>
+<td>
+
+Updated document
+
+</td>
+</tr>
+</tbody>
+</table>
+
+### UpdateManyExamplePayload
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>numAffected</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td>
+
+Affected documents number
+
+</td>
+</tr>
+</tbody>
+</table>
+
+### UpdateOneExamplePayload
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>recordId</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td>
+
+Updated document ID
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>record</strong></td>
+<td valign="top"><a href="#example">Example</a></td>
+<td>
+
+Updated document
+
+</td>
+</tr>
+</tbody>
+</table>
+
+## Inputs
+
+### CreateManyExampleInput
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>example</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### CreateOneExampleInput
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>example</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### ExampleSearch
+
+String or Regular Expression
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>example</strong></td>
+<td valign="top">[<a href="#string">String</a>]</td>
+<td>
+
+field to apply regular expression
+
+</td>
+</tr>
+</tbody>
+</table>
+
+### FilterExampleInput
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>example</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>_id</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>_ids</strong></td>
+<td valign="top">[<a href="#mongoid">MongoID</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>_operators</strong></td>
+<td valign="top"><a href="#operatorsfilterexampleinput">OperatorsFilterExampleInput</a></td>
+<td>
+
+List of *indexed* fields that can be filtered via operators.
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>OR</strong></td>
+<td valign="top">[<a href="#filterexampleinput">FilterExampleInput</a>!]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>AND</strong></td>
+<td valign="top">[<a href="#filterexampleinput">FilterExampleInput</a>!]</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### FilterFindManyExampleInput
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>example</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>_id</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>_ids</strong></td>
+<td valign="top">[<a href="#mongoid">MongoID</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>_operators</strong></td>
+<td valign="top"><a href="#operatorsfilterfindmanyexampleinput">OperatorsFilterFindManyExampleInput</a></td>
+<td>
+
+List of *indexed* fields that can be filtered via operators.
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>OR</strong></td>
+<td valign="top">[<a href="#filterfindmanyexampleinput">FilterFindManyExampleInput</a>!]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>AND</strong></td>
+<td valign="top">[<a href="#filterfindmanyexampleinput">FilterFindManyExampleInput</a>!]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>Search</strong></td>
+<td valign="top"><a href="#examplesearch">ExampleSearch</a></td>
+<td>
+
+Search by String or Regular Expression
+
+</td>
+</tr>
+</tbody>
+</table>
+
+### FilterFindOneExampleInput
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>example</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>_id</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>_ids</strong></td>
+<td valign="top">[<a href="#mongoid">MongoID</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>_operators</strong></td>
+<td valign="top"><a href="#operatorsfilterfindoneexampleinput">OperatorsFilterFindOneExampleInput</a></td>
+<td>
+
+List of *indexed* fields that can be filtered via operators.
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>OR</strong></td>
+<td valign="top">[<a href="#filterfindoneexampleinput">FilterFindOneExampleInput</a>!]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>AND</strong></td>
+<td valign="top">[<a href="#filterfindoneexampleinput">FilterFindOneExampleInput</a>!]</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### FilterRemoveManyExampleInput
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>example</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>_id</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>_ids</strong></td>
+<td valign="top">[<a href="#mongoid">MongoID</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>_operators</strong></td>
+<td valign="top"><a href="#operatorsfilterremovemanyexampleinput">OperatorsFilterRemoveManyExampleInput</a></td>
+<td>
+
+List of *indexed* fields that can be filtered via operators.
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>OR</strong></td>
+<td valign="top">[<a href="#filterremovemanyexampleinput">FilterRemoveManyExampleInput</a>!]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>AND</strong></td>
+<td valign="top">[<a href="#filterremovemanyexampleinput">FilterRemoveManyExampleInput</a>!]</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### FilterRemoveOneExampleInput
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>example</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>_id</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>_ids</strong></td>
+<td valign="top">[<a href="#mongoid">MongoID</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>_operators</strong></td>
+<td valign="top"><a href="#operatorsfilterremoveoneexampleinput">OperatorsFilterRemoveOneExampleInput</a></td>
+<td>
+
+List of *indexed* fields that can be filtered via operators.
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>OR</strong></td>
+<td valign="top">[<a href="#filterremoveoneexampleinput">FilterRemoveOneExampleInput</a>!]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>AND</strong></td>
+<td valign="top">[<a href="#filterremoveoneexampleinput">FilterRemoveOneExampleInput</a>!]</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### FilterUpdateManyExampleInput
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>example</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>_id</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>_ids</strong></td>
+<td valign="top">[<a href="#mongoid">MongoID</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>_operators</strong></td>
+<td valign="top"><a href="#operatorsfilterupdatemanyexampleinput">OperatorsFilterUpdateManyExampleInput</a></td>
+<td>
+
+List of *indexed* fields that can be filtered via operators.
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>OR</strong></td>
+<td valign="top">[<a href="#filterupdatemanyexampleinput">FilterUpdateManyExampleInput</a>!]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>AND</strong></td>
+<td valign="top">[<a href="#filterupdatemanyexampleinput">FilterUpdateManyExampleInput</a>!]</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### FilterUpdateOneExampleInput
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>example</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>_id</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>_ids</strong></td>
+<td valign="top">[<a href="#mongoid">MongoID</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>_operators</strong></td>
+<td valign="top"><a href="#operatorsfilterupdateoneexampleinput">OperatorsFilterUpdateOneExampleInput</a></td>
+<td>
+
+List of *indexed* fields that can be filtered via operators.
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>OR</strong></td>
+<td valign="top">[<a href="#filterupdateoneexampleinput">FilterUpdateOneExampleInput</a>!]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>AND</strong></td>
+<td valign="top">[<a href="#filterupdateoneexampleinput">FilterUpdateOneExampleInput</a>!]</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### OperatorsFilterExampleInput
+
+For performance reason this type contains only *indexed* fields.
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>_id</strong></td>
+<td valign="top"><a href="#_idoperatorsfilterexampleinput">_idOperatorsFilterExampleInput</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### OperatorsFilterFindManyExampleInput
+
+For performance reason this type contains only *indexed* fields.
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>_id</strong></td>
+<td valign="top"><a href="#_idoperatorsfilterfindmanyexampleinput">_idOperatorsFilterFindManyExampleInput</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### OperatorsFilterFindOneExampleInput
+
+For performance reason this type contains only *indexed* fields.
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>_id</strong></td>
+<td valign="top"><a href="#_idoperatorsfilterfindoneexampleinput">_idOperatorsFilterFindOneExampleInput</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### OperatorsFilterRemoveManyExampleInput
+
+For performance reason this type contains only *indexed* fields.
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>_id</strong></td>
+<td valign="top"><a href="#_idoperatorsfilterremovemanyexampleinput">_idOperatorsFilterRemoveManyExampleInput</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### OperatorsFilterRemoveOneExampleInput
+
+For performance reason this type contains only *indexed* fields.
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>_id</strong></td>
+<td valign="top"><a href="#_idoperatorsfilterremoveoneexampleinput">_idOperatorsFilterRemoveOneExampleInput</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### OperatorsFilterUpdateManyExampleInput
+
+For performance reason this type contains only *indexed* fields.
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>_id</strong></td>
+<td valign="top"><a href="#_idoperatorsfilterupdatemanyexampleinput">_idOperatorsFilterUpdateManyExampleInput</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### OperatorsFilterUpdateOneExampleInput
+
+For performance reason this type contains only *indexed* fields.
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>_id</strong></td>
+<td valign="top"><a href="#_idoperatorsfilterupdateoneexampleinput">_idOperatorsFilterUpdateOneExampleInput</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### UpdateByIdExampleInput
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>example</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>_id</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a>!</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### UpdateManyExampleInput
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>example</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### UpdateOneExampleInput
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>example</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### _idOperatorsFilterExampleInput
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>gt</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>gte</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>lt</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>lte</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ne</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>in</strong></td>
+<td valign="top">[<a href="#mongoid">MongoID</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>nin</strong></td>
+<td valign="top">[<a href="#mongoid">MongoID</a>]</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### _idOperatorsFilterFindManyExampleInput
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>gt</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>gte</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>lt</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>lte</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ne</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>in</strong></td>
+<td valign="top">[<a href="#mongoid">MongoID</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>nin</strong></td>
+<td valign="top">[<a href="#mongoid">MongoID</a>]</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### _idOperatorsFilterFindOneExampleInput
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>gt</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>gte</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>lt</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>lte</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ne</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>in</strong></td>
+<td valign="top">[<a href="#mongoid">MongoID</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>nin</strong></td>
+<td valign="top">[<a href="#mongoid">MongoID</a>]</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### _idOperatorsFilterRemoveManyExampleInput
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>gt</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>gte</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>lt</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>lte</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ne</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>in</strong></td>
+<td valign="top">[<a href="#mongoid">MongoID</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>nin</strong></td>
+<td valign="top">[<a href="#mongoid">MongoID</a>]</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### _idOperatorsFilterRemoveOneExampleInput
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>gt</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>gte</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>lt</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>lte</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ne</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>in</strong></td>
+<td valign="top">[<a href="#mongoid">MongoID</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>nin</strong></td>
+<td valign="top">[<a href="#mongoid">MongoID</a>]</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### _idOperatorsFilterUpdateManyExampleInput
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>gt</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>gte</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>lt</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>lte</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ne</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>in</strong></td>
+<td valign="top">[<a href="#mongoid">MongoID</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>nin</strong></td>
+<td valign="top">[<a href="#mongoid">MongoID</a>]</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### _idOperatorsFilterUpdateOneExampleInput
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>gt</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>gte</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>lt</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>lte</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>ne</strong></td>
+<td valign="top"><a href="#mongoid">MongoID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>in</strong></td>
+<td valign="top">[<a href="#mongoid">MongoID</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>nin</strong></td>
+<td valign="top">[<a href="#mongoid">MongoID</a>]</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+## Enums
+
+### SortConnectionExampleEnum
+
+<table>
+<thead>
+<th align="left">Value</th>
+<th align="left">Description</th>
+</thead>
+<tbody>
+<tr>
+<td valign="top"><strong>_ID_DESC</strong></td>
+<td></td>
+</tr>
+<tr>
+<td valign="top"><strong>_ID_ASC</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### SortFindByIdsExampleInput
+
+<table>
+<thead>
+<th align="left">Value</th>
+<th align="left">Description</th>
+</thead>
+<tbody>
+<tr>
+<td valign="top"><strong>_ID_ASC</strong></td>
+<td></td>
+</tr>
+<tr>
+<td valign="top"><strong>_ID_DESC</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### SortFindManyExampleInput
+
+<table>
+<thead>
+<th align="left">Value</th>
+<th align="left">Description</th>
+</thead>
+<tbody>
+<tr>
+<td valign="top"><strong>_ID_ASC</strong></td>
+<td></td>
+</tr>
+<tr>
+<td valign="top"><strong>_ID_DESC</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### SortFindOneExampleInput
+
+<table>
+<thead>
+<th align="left">Value</th>
+<th align="left">Description</th>
+</thead>
+<tbody>
+<tr>
+<td valign="top"><strong>_ID_ASC</strong></td>
+<td></td>
+</tr>
+<tr>
+<td valign="top"><strong>_ID_DESC</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### SortRemoveOneExampleInput
+
+<table>
+<thead>
+<th align="left">Value</th>
+<th align="left">Description</th>
+</thead>
+<tbody>
+<tr>
+<td valign="top"><strong>_ID_ASC</strong></td>
+<td></td>
+</tr>
+<tr>
+<td valign="top"><strong>_ID_DESC</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### SortUpdateManyExampleInput
+
+<table>
+<thead>
+<th align="left">Value</th>
+<th align="left">Description</th>
+</thead>
+<tbody>
+<tr>
+<td valign="top"><strong>_ID_ASC</strong></td>
+<td></td>
+</tr>
+<tr>
+<td valign="top"><strong>_ID_DESC</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### SortUpdateOneExampleInput
+
+<table>
+<thead>
+<th align="left">Value</th>
+<th align="left">Description</th>
+</thead>
+<tbody>
+<tr>
+<td valign="top"><strong>_ID_ASC</strong></td>
+<td></td>
+</tr>
+<tr>
+<td valign="top"><strong>_ID_DESC</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+## Scalars
+
+### Boolean
+
+The `Boolean` scalar type represents `true` or `false`.
+
+### Int
+
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+
+### MongoID
+
+The `ID` scalar type represents a unique MongoDB identifier in collection. MongoDB by default use 12-byte ObjectId value (https://docs.mongodb.com/manual/reference/bson-types/#objectid). But MongoDB also may accepts string or integer as correct values for _id field.
+
+### String
+
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
 
 
-### `createMany(opts?: CreateManyResolverOpts)`
-
-```ts
-interface CreateManyResolverOpts {
-  /** If you want to generate different resolvers you may avoid Type name collision by adding a suffix to type names */
-  suffix?: string;
-  /** Customize input-type for `records` argument. */
-  records?: RecordHelperArgsOpts;
-  /** Customize payload.recordIds field. If false, then this field will be removed. */
-  recordIds?: PayloadRecordIdsHelperOpts | false;
-}
-```
-
-### `createOne(opts?: CreateOneResolverOpts)`
-
-```ts
-interface CreateOneResolverOpts {
-  /** If you want to generate different resolvers you may avoid Type name collision by adding a suffix to type names */
-  suffix?: string;
-  /** Customize input-type for `record` argument */
-  record?: RecordHelperArgsOpts;
-  /** Customize payload.recordId field. If false, then this field will be removed. */
-  recordId?: PayloadRecordIdHelperOpts | false;
-}
-```
-### `findById(opts?: FindByIdResolverOpts)`
-
-```ts
-interface FindByIdResolverOpts {
-  /**
-   * Enabling the lean option tells Mongoose to skip instantiating
-   * a full Mongoose document and just give you the plain JavaScript objects.
-   * Documents are much heavier than vanilla JavaScript objects,
-   * because they have a lot of internal state for change tracking.
-   * The downside of enabling lean is that lean docs don't have:
-   *   Default values
-   *   Getters and setters
-   *   Virtuals
-   * Read more about `lean`: https://mongoosejs.com/docs/tutorials/lean.html
-   */
-  lean?: boolean;
-}
-```
-
-### `findByIds(opts?: FindByIdsResolverOpts)`
-
-```ts
-interface FindByIdsResolverOpts {
-  /**
-   * Enabling the lean option tells Mongoose to skip instantiating
-   * a full Mongoose document and just give you the plain JavaScript objects.
-   * Documents are much heavier than vanilla JavaScript objects,
-   * because they have a lot of internal state for change tracking.
-   * The downside of enabling lean is that lean docs don't have:
-   *   Default values
-   *   Getters and setters
-   *   Virtuals
-   * Read more about `lean`: https://mongoosejs.com/docs/tutorials/lean.html
-   */
-  lean?: boolean;
-  limit?: LimitHelperArgsOpts | false;
-  sort?: SortHelperArgsOpts | false;
-}
-```
-
-### `findMany(opts?: FindManyResolverOpts)`
-
-```ts
-interface FindManyResolverOpts {
-  /**
-   * Enabling the lean option tells Mongoose to skip instantiating
-   * a full Mongoose document and just give you the plain JavaScript objects.
-   * Documents are much heavier than vanilla JavaScript objects,
-   * because they have a lot of internal state for change tracking.
-   * The downside of enabling lean is that lean docs don't have:
-   *   Default values
-   *   Getters and setters
-   *   Virtuals
-   * Read more about `lean`: https://mongoosejs.com/docs/tutorials/lean.html
-   */
-  lean?: boolean;
-  /** If you want to generate different resolvers you may avoid Type name collision by adding a suffix to type names */
-  suffix?: string;
-  /** Customize input-type for `filter` argument. If `false` then arg will be removed. */
-  filter?: FilterHelperArgsOpts | false;
-  sort?: SortHelperArgsOpts | false;
-  limit?: LimitHelperArgsOpts | false;
-  skip?: false;
-}
-```
-
-### `findOne(opts?: FindOneResolverOpts)`
-
-```ts
-interface FindOneResolverOpts {
-  /**
-   * Enabling the lean option tells Mongoose to skip instantiating
-   * a full Mongoose document and just give you the plain JavaScript objects.
-   * Documents are much heavier than vanilla JavaScript objects,
-   * because they have a lot of internal state for change tracking.
-   * The downside of enabling lean is that lean docs don't have:
-   *   Default values
-   *   Getters and setters
-   *   Virtuals
-   * Read more about `lean`: https://mongoosejs.com/docs/tutorials/lean.html
-   */
-  lean?: boolean;
-  /** If you want to generate different resolvers you may avoid Type name collision by adding a suffix to type names */
-  suffix?: string;
-  /** Customize input-type for `filter` argument. If `false` then arg will be removed. */
-  filter?: FilterHelperArgsOpts | false;
-  sort?: SortHelperArgsOpts | false;
-  skip?: false;
-}
-```
-
-### `pagination(opts?: PaginationResolverOpts)`
-
-```ts
-interface PaginationResolverOpts {
-  name?: string;
-  perPage?: number;
-  countOpts?: CountResolverOpts;
-  findManyOpts?: FindManyResolverOpts;
-}
-```
-
-### `removeById(opts?: RemoveByIdResolverOpts)`
-
-```ts
-interface RemoveByIdResolverOpts {
-  /** If you want to generate different resolvers you may avoid Type name collision by adding a suffix to type names */
-  suffix?: string;
-  /** Customize payload.recordId field. If false, then this field will be removed. */
-  recordId?: PayloadRecordIdHelperOpts | false;
-}
-```
-
-### `removeMany(opts?: RemoveManyResolverOpts)`
-
-```ts
-interface RemoveManyResolverOpts {
-  /** If you want to generate different resolvers you may avoid Type name collision by adding a suffix to type names */
-  suffix?: string;
-  /** Customize input-type for `filter` argument. If `false` then arg will be removed. */
-  filter?: FilterHelperArgsOpts | false;
-  limit?: LimitHelperArgsOpts | false;
-}
-```
-
-### `removeOne(opts?: RemoveOneResolverOpts)`
-
-```ts
-interface RemoveOneResolverOpts {
-  /** If you want to generate different resolvers you may avoid Type name collision by adding a suffix to type names */
-  suffix?: string;
-  /** Customize input-type for `filter` argument. If `false` then arg will be removed. */
-  filter?: FilterHelperArgsOpts | false;
-  sort?: SortHelperArgsOpts | false;
-  /** Customize payload.recordId field. If false, then this field will be removed. */
-  recordId?: PayloadRecordIdHelperOpts | false;
-}
-```
-
-### `updateById(opts?: UpdateByIdResolverOpts)`
-
-```ts
-interface UpdateByIdResolverOpts {
-  /** If you want to generate different resolvers you may avoid Type name collision by adding a suffix to type names */
-  suffix?: string;
-  /** Customize input-type for `record` argument. */
-  record?: RecordHelperArgsOpts;
-  /** Customize payload.recordId field. If false, then this field will be removed. */
-  recordId?: PayloadRecordIdHelperOpts | false;
-}
-```
-
-### `updateMany(opts?: UpdateManyResolverOpts)`
-
-```ts
-interface UpdateManyResolverOpts {
-  /** If you want to generate different resolvers you may avoid Type name collision by adding a suffix to type names */
-  suffix?: string;
-  /** Customize input-type for `record` argument. */
-  record?: RecordHelperArgsOpts;
-  /** Customize input-type for `filter` argument. If `false` then arg will be removed. */
-  filter?: FilterHelperArgsOpts | false;
-  sort?: SortHelperArgsOpts | false;
-  limit?: LimitHelperArgsOpts | false;
-  skip?: false;
-}
-```
-
-### `updateOne(opts?: UpdateOneResolverOpts)`
-
-```ts
-interface UpdateOneResolverOpts {
-  /** If you want to generate different resolvers you may avoid Type name collision by adding a suffix to type names */
-  suffix?: string;
-  /** Customize input-type for `record` argument. */
-  record?: RecordHelperArgsOpts;
-  /** Customize input-type for `filter` argument. If `false` then arg will be removed. */
-  filter?: FilterHelperArgsOpts | false;
-  sort?: SortHelperArgsOpts | false;
-  skip?: false;
-  /** Customize payload.recordId field. If false, then this field will be removed. */
-  recordId?: PayloadRecordIdHelperOpts | false;
-}
-```
-
-### Description of common resolvers' options
-
-#### `FilterHelperArgsOpts`
-
-```ts
-type FilterHelperArgsOpts = {
-  /**
-   * Add to filter arg only that fields which are indexed.
-   * If false then all fields will be available for filtering.
-   * By default: true
-   */
-  onlyIndexed?: boolean;
-  /**
-   * You an remove some fields from type via this option.
-   */
-  removeFields?: string | string[];
-  /**
-   * This option makes provided fieldNames as required
-   */
-  requiredFields?: string | string[];
-  /**
-   * Customize operators filtering or disable it at all.
-   * By default, for performance reason, `graphql-compose-mongoose` generates operators
-   * *only for indexed* fields.
-   *
-   * BUT you may enable operators for all fields when creating resolver in the following way:
-   *   // enables all operators for all fields
-   *   operators: true,
-   * OR provide a more granular `operators` configuration to suit your needs:
-   *   operators: {
-   *     // for `age` field add just 3 operators
-   *     age: ['in', 'gt', 'lt'],
-   *     // for non-indexed `amount` field add all operators
-   *     amount: true,
-   *     // don't add this field to operators
-   *     indexedField: false,
-   *   }
-   *
-   * Available logic operators: AND, OR
-   * Available field operators: gt, gte, lt, lte, ne, in, nin, regex, exists
-   */
-  operators?: FieldsOperatorsConfig | false;
-  /**
-   * Make arg `filter` as required if this option is true.
-   */
-  isRequired?: boolean;
-  /**
-   * Base type name for generated filter argument.
-   */
-  baseTypeName?: string;
-  /**
-   * Provide custom prefix for Type name
-   */
-  prefix?: string;
-  /**
-   * Provide custom suffix for Type name
-   */
-  suffix?: string;
-};
-```
-
-#### `SortHelperArgsOpts`
-
-```ts
-type SortHelperArgsOpts = {
-  /**
-   * Allow sort by several fields.
-   * This makes arg as array of sort values.
-   */
-  multi?: boolean;
-  /**
-   * This option set custom type name for generated sort argument.
-   */
-  sortTypeName?: string;
-};
-```
-
-#### `RecordHelperArgsOpts`
-
-```ts
-type RecordHelperArgsOpts = {
-  /**
-   * You an remove some fields from type via this option.
-   */
-  removeFields?: string[];
-  /**
-   * This option makes provided fieldNames as required
-   */
-  requiredFields?: string[];
-  /**
-   * This option makes all fields nullable by default.
-   * May be overridden by `requiredFields` property
-   */
-  allFieldsNullable?: boolean;
-  /**
-   * Provide custom prefix for Type name
-   */
-  prefix?: string;
-  /**
-   * Provide custom suffix for Type name
-   */
-  suffix?: string;
-  /**
-   * Make arg `record` as required if this option is true.
-   */
-  isRequired?: boolean;
-};
-```
-
-#### `LimitHelperArgsOpts`
-
-```ts
-type LimitHelperArgsOpts = {
-  /**
-   * Set limit for default number of returned records
-   * if it does not provided in query.
-   * By default: 100
-   */
-  defaultValue?: number;
-};
-```
 ## License
 
 [MIT](https://github.com/graphql-compose/graphql-compose-mongoose/blob/master/LICENSE.md)

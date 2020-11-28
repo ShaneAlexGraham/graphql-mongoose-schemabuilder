@@ -63,7 +63,7 @@ const buildSchemaFromModels = function(models, schemaComposer=compose.schemaComp
     
     Object.keys(model.schema.obj).forEach(key => {
       let value = model.schema.paths[key];
-      if(value.instance == 'String')
+      if(value && value.instance == 'String')
         fields[key] = {
           type: '[String]',
           name: key,
