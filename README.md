@@ -1,6 +1,6 @@
 # graphql-compose-mongoose
 
-This is a plugin for [ graphql-compose-mongoose](https://github.com/graphql-compose/ graphql-compose-mongoose) and [graphql-compose](https://github.com/graphql-compose/graphql-compose), which derives GraphQLType from your [mongoose model](https://github.com/Automattic/mongoose). Also derives bunch of internal GraphQL Types. Auto generates schema composer, including `graphql connection`, also provided basic search via operators ($lt, $gt and so on) with a added feature to `Search` by regular expression.
+This is a plugin for [graphql-compose-mongoose](https://github.com/graphql-compose/graphql-compose-mongoose) and [graphql-compose](https://github.com/graphql-compose/graphql-compose), which derives GraphQLType from your [mongoose model](https://github.com/Automattic/mongoose). Also derives bunch of internal GraphQL Types. Auto generates schema composer, including `graphql connection`, also provided basic search via operators ($lt, $gt and so on) with a added feature to `Search` by regular expression.
 
 <!-- TOC depthFrom:2 -->
 - [Installation](#installation)
@@ -447,4 +447,4 @@ type LimitHelperArgsOpts = {
 ```
 ## License
 
-[MIT](https://github.com/ShaneAlexGraham/graphql-mongoose-schemabuilder/blob/master/LICENSE.md)
+[MIT](https://github.com/graphql-compose/graphql-compose-mongoose/blob/master/LICENSE.md)
