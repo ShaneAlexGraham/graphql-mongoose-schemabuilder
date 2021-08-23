@@ -1,4 +1,4 @@
-const { composeWithMongoose } = require('graphql-compose-mongoose/node8');
+const { composeWithMongoose } = require('graphql-compose-mongoose');
 const compose = require('graphql-compose');
 
 const resolvers = {
